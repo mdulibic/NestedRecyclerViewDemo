@@ -1,5 +1,10 @@
 package studio.codable.nestedrecyclerviewdemo
 
+import android.graphics.Insets.add
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem
 import studio.codable.nestedrecyclerviewdemo.model.Palette
 
