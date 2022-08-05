@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import studio.codable.nestedrecyclerviewdemo.databinding.ItemColorBinding
 
 class ChildColorsAdapter(
-    private var colorList: List<studio.codable.nestedrecyclerviewdemo.model.Color> = listOf()
+    private var colorItemList: List<studio.codable.nestedrecyclerviewdemo.model.ColorItem> = listOf()
 ) : RecyclerView.Adapter<ChildColorsAdapter.ChildColorsVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChildColorsVH {
@@ -17,20 +17,20 @@ class ChildColorsAdapter(
     }
 
     override fun onBindViewHolder(holder: ChildColorsVH, position: Int) {
-        return holder.bind(colorList[position])
+        return holder.bind(colorItemList[position])
     }
 
-    override fun getItemCount(): Int = colorList.size
+    override fun getItemCount(): Int = colorItemList.size
 
-    fun setChildItems(items: List<studio.codable.nestedrecyclerviewdemo.model.Color>) {
-        colorList = items
+    fun setChildItems(items: List<studio.codable.nestedrecyclerviewdemo.model.ColorItem>) {
+        colorItemList = items
         notifyDataSetChanged()
     }
 
     inner class ChildColorsVH(private val binding: ItemColorBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: studio.codable.nestedrecyclerviewdemo.model.Color) {
+        fun bind(item: studio.codable.nestedrecyclerviewdemo.model.ColorItem) {
             binding.apply {
                 tvName.text = item.name
                 bgItem.setCardBackgroundColor(Color.parseColor(item.hexCode))

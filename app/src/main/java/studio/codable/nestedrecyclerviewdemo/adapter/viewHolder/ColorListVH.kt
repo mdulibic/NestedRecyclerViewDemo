@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import studio.codable.nestedrecyclerviewdemo.adapter.ChildColorsAdapter
 import studio.codable.nestedrecyclerviewdemo.databinding.LayoutColorItemListBinding
-import studio.codable.nestedrecyclerviewdemo.model.Color
+import studio.codable.nestedrecyclerviewdemo.model.ColorItem
 
 class ColorListVH (
     private val binding: LayoutColorItemListBinding
@@ -23,7 +23,7 @@ class ColorListVH (
         }
     }
 
-    fun bind(items: List<Color>) {
+    fun bind(items: List<ColorItem>) {
             binding.rvChildItems.apply {
                 layoutManager = LinearLayoutManager(binding.root.context).apply {
                     orientation = LinearLayoutManager.HORIZONTAL
