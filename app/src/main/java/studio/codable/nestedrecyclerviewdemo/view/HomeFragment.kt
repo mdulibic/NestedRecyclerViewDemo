@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
              * allowing a LayoutManager to reuse those views unmodified without needing
              * to return to the adapter to rebind them.
              */
-            setItemViewCacheSize(30)
+            setItemViewCacheSize(ITEM_VIEW_CACHE_SIZE)
             layoutManager = LinearLayoutManager(requireContext()).apply {
                 orientation = LinearLayoutManager.VERTICAL
                 /**
@@ -68,5 +68,9 @@ class HomeFragment : Fragment() {
             }
             adapter = parentPaletteAdapter
         }
+    }
+
+    companion object {
+        const val ITEM_VIEW_CACHE_SIZE = 30
     }
 }
