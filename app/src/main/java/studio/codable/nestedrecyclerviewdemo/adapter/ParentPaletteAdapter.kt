@@ -1,8 +1,9 @@
 package studio.codable.nestedrecyclerviewdemo.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem
 import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem.*
@@ -11,9 +12,32 @@ import studio.codable.nestedrecyclerviewdemo.adapter.viewHolder.HeaderVH
 import studio.codable.nestedrecyclerviewdemo.databinding.ItemHeaderBinding
 import studio.codable.nestedrecyclerviewdemo.databinding.LayoutColorItemListBinding
 
-class ParentPaletteAdapter(
-    private var childItems: ArrayList<ViewTypeItem> = arrayListOf()
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    /**
+     * === Optimize performance ===
+     * 3. Implement DiffUtil
+     * Improve RecyclerView’s performance when handling list updates.
+     */
+    private val differCallback = object : DiffUtil.ItemCallback<ViewTypeItem>() {
+        override fun areItemsTheSame(oldItem: ViewTypeItem, newItem: ViewTypeItem): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
+
+        override fun areContentsTheSame(oldItem: ViewTypeItem, newItem: ViewTypeItem): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    private val differ = AsyncListDiffer(this, differCallback)
+
+    /**
+     * === Optimize performance ===
+     * 1. Setting a Single view pool for all the nested RecyclerView Pools
+     * Decrease the view creation time and make the scrolling experience
+     * smoother for the user.
+     */
+    private val parentRecycledViewPool = RecyclerView.RecycledViewPool()
 
     companion object {
         const val VIEW_TYPE_CHILD_ITEM = 12
@@ -21,19 +45,13 @@ class ParentPaletteAdapter(
     }
 
     fun update(newItems: List<ViewTypeItem>) {
-        Log.d("TAG","Items: $newItems")
-        childItems.apply {
-            clear()
-            addAll(newItems)
-        }
-        notifyDataSetChanged()
+        differ.submitList(newItems)
     }
 
-    override fun getItemViewType(position: Int): Int = childItems[position].viewType
+    override fun getItemViewType(position: Int): Int = differ.currentList[position].viewType
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context
-        Log.d("TAG","View type $viewType")
 
         return when (viewType) {
             VIEW_TYPE_HEADER -> {
@@ -51,7 +69,8 @@ class ParentPaletteAdapter(
                         LayoutInflater.from(context),
                         parent,
                         false
-                    )
+                    ),
+                    parentRecycledViewPool
                 )
             }
             else -> throw IllegalStateException()
@@ -59,11 +78,11 @@ class ParentPaletteAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = childItems[position]
+        val item = differ.currentList[position]
 
         when (holder) {
             is ColorListVH -> {
-                holder.bind((item as ColorListView).colorItems)
+                holder.bind((item as ColorListView).colors)
             }
             is HeaderVH -> {
                 holder.bind((item as HeaderView).title)
@@ -71,5 +90,5 @@ class ParentPaletteAdapter(
         }
     }
 
-    override fun getItemCount(): Int = childItems.size
+    override fun getItemCount(): Int = differ.currentList.size
 }

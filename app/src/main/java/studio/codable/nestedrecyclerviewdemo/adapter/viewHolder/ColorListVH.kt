@@ -9,7 +9,8 @@ import studio.codable.nestedrecyclerviewdemo.databinding.LayoutColorItemListBind
 import studio.codable.nestedrecyclerviewdemo.model.ColorItem
 
 class ColorListVH (
-    private val binding: LayoutColorItemListBinding
+    private val binding: LayoutColorItemListBinding,
+    private val parentRecycledViewPool: RecyclerView.RecycledViewPool
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val childColorsAdapter = ChildColorsAdapter()
@@ -29,10 +30,11 @@ class ColorListVH (
                     orientation = LinearLayoutManager.HORIZONTAL
                 }
                 adapter = childColorsAdapter
+                setRecycledViewPool(parentRecycledViewPool)
                 removeItemDecoration(itemDecoration)
                 addItemDecoration(itemDecoration)
                 isNestedScrollingEnabled = false
             }
-        childColorsAdapter.setChildItems(items)
+        childColorsAdapter.update(items)
     }
 }

@@ -7,7 +7,7 @@ sealed class ViewTypeItem {
 
     abstract val viewType: Int
 
-    data class ColorListView(val colorItems: List<ColorItem>) : ViewTypeItem() {
+    data class ColorListView(val colors: List<ColorItem>) : ViewTypeItem() {
         override val viewType: Int = ParentPaletteAdapter.VIEW_TYPE_CHILD_ITEM
     }
 

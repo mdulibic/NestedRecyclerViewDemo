@@ -12,7 +12,7 @@ fun List<Palette>.toViewTypeItemList(): List<ViewTypeItem> {
     val listItems: ArrayList<ViewTypeItem> = arrayListOf()
     this.forEach {
         listItems.add(ViewTypeItem.HeaderView(title = it.name))
-        listItems.add(ViewTypeItem.ColorListView(colorItems = it.colorItems))
+        listItems.add(ViewTypeItem.ColorListView(colors = it.colors))
     }
     return listItems
 }
