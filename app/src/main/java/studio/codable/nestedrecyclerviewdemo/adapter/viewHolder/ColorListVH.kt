@@ -5,6 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import studio.codable.nestedrecyclerviewdemo.adapter.ChildColorsAdapter
+import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem
 import studio.codable.nestedrecyclerviewdemo.databinding.LayoutColorItemListBinding
 import studio.codable.nestedrecyclerviewdemo.model.ColorItem
 
@@ -23,7 +24,7 @@ class ColorListVH (
         }
     }
 
-    fun bind(items: List<ColorItem>) {
+    fun bind(item: ViewTypeItem.ColorListView) {
             binding.rvChildItems.apply {
                 layoutManager = LinearLayoutManager(binding.root.context).apply {
                     orientation = LinearLayoutManager.HORIZONTAL
@@ -33,6 +34,6 @@ class ColorListVH (
                 addItemDecoration(itemDecoration)
                 isNestedScrollingEnabled = false
             }
-        childColorsAdapter.setChildItems(items)
+        childColorsAdapter.setChildItems(item.colorItems)
     }
 }

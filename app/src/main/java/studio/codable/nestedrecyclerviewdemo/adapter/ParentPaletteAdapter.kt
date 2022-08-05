@@ -63,7 +63,7 @@ class ParentPaletteAdapter(
 
         when (holder) {
             is ColorListVH -> {
-                holder.bind((item as ColorListView).colorItems)
+                holder.bind(item as ColorListView)
             }
             is HeaderVH -> {
                 holder.bind((item as HeaderView).title)
