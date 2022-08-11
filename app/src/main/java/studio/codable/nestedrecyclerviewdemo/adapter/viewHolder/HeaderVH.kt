@@ -7,11 +7,17 @@ import studio.codable.nestedrecyclerviewdemo.databinding.ItemHeaderBinding
 
 class HeaderVH(
     private val binding: ItemHeaderBinding
-) : RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root), HomeViewHolder {
 
     fun bind(header: String) {
         binding.apply {
             tvHeader.text = header
         }
+    }
+
+    override fun onSaveInstanceState(): HomeViewHolder.State? = null
+
+    override fun restoreState(state: HomeViewHolder.State) {
+        // nothing
     }
 }

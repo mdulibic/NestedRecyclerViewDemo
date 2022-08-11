@@ -82,7 +82,7 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         when (holder) {
             is ColorListVH -> {
-                holder.bind((item as ColorListView).colors)
+                holder.bind(item as ColorListView)
             }
             is HeaderVH -> {
                 holder.bind((item as HeaderView).title)

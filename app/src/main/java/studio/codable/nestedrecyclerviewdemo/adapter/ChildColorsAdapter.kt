@@ -1,6 +1,5 @@
 package studio.codable.nestedrecyclerviewdemo.adapter
 
-import android.graphics.Color
 import android.graphics.Color.parseColor
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -63,7 +62,7 @@ class ChildColorsAdapter: RecyclerView.Adapter<ChildColorsAdapter.ChildColorsVH>
         fun bind(item: ColorItem) {
             binding.apply {
                 tvName.text = item.name
-                bgItem.setCardBackgroundColor(Color.parseColor(item.hexCode))
+                bgItem.setCardBackgroundColor(parseColor(item.hexCode))
             }
             }
         }

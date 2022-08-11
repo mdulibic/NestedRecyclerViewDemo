@@ -16,3 +16,12 @@ fun List<Palette>.toViewTypeItemList(): List<ViewTypeItem> {
     }
     return listItems
 }
+
+inline fun FragmentManager.doTransaction(func: FragmentTransaction.() ->
+FragmentTransaction) {
+    beginTransaction().func().commit()
+}
+
+fun AppCompatActivity.replaceFragment(frameId: Int, fragment: Fragment) {
+    supportFragmentManager.doTransaction{replace(frameId, fragment)}
+}

@@ -1,17 +1,22 @@
 package studio.codable.nestedrecyclerviewdemo.view
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import studio.codable.nestedrecyclerviewdemo.HomeViewModel
 import studio.codable.nestedrecyclerviewdemo.R
 import studio.codable.nestedrecyclerviewdemo.adapter.ParentPaletteAdapter
+import studio.codable.nestedrecyclerviewdemo.adapter.viewHolder.HomeViewHolder
 import studio.codable.nestedrecyclerviewdemo.databinding.FragmentHomeBinding
+import studio.codable.nestedrecyclerviewdemo.replaceFragment
 
 class HomeFragment : Fragment() {
 
@@ -33,7 +38,62 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         observeLiveData()
+        onClickListener()
+    }
+
+    private fun onClickListener() {
+        binding.btnSwitchFragment.setOnClickListener {
+            (requireActivity() as AppCompatActivity).replaceFragment(R.id.fragment_container_view, SecondFragment.getInstance())
+        }
+    }
+
+    private var savedState: Bundle? = null
+
+    override fun onPause() {
+        super.onPause()
+
+        Log.d(TAG, "onPause")
+
+        val stateBundle = Bundle()
+
+        binding.rvParent.children.forEachIndexed { _, view ->
+            (binding.rvParent.getChildViewHolder(view) as? HomeViewHolder)?.let { homeVh ->
+                val childState = homeVh.onSaveInstanceState()
+                childState?.let {
+                    stateBundle.putParcelable(
+                        it.contentHashCode.toString(),
+                        it.layoutManagerParcelable
+                    )
+                } ?: Log.w(TAG, "$homeVh didn't return child State")
+            } ?: Log.w(TAG, "$view does not implement HomeViewHolder")
+        }
+
+        savedState = Bundle()
+        savedState?.putBundle(CHILD_STATES, stateBundle)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.d(TAG, "onResume")
+
         vm.getPaletteList()
+
+        val childViewHolders =
+            binding.rvParent.children.mapNotNull { binding.rvParent.getChildViewHolder(it) as? HomeViewHolder }
+
+        savedState?.let { bundle ->
+            val childStates = bundle.get(CHILD_STATES) as? Bundle
+
+            childStates?.keySet()?.forEach { key ->
+                val childState = HomeViewHolder.State(childStates[key] as Parcelable?, key.toInt())
+                childViewHolders.forEach { child ->
+                    child.restoreState(childState)
+                }
+            }
+        }
+
+        savedState = null
     }
 
     private fun observeLiveData() {
@@ -59,7 +119,7 @@ class HomeFragment : Fragment() {
                 orientation = LinearLayoutManager.VERTICAL
                 /**
                  * === Optimize performance ===
-                 * 4. Setting the RecyclerView.LayoutManager flag recycleChildrenOnDetach to true
+                 * 2. Setting the RecyclerView.LayoutManager flag recycleChildrenOnDetach to true
                  * When using a shared RecyclerView.RecycledViewPool,
                  * it might be a good idea to set the flag recycleChildrenOnDetach to true
                  * so that views will be available to other RecyclerViews immediately.
@@ -72,5 +132,10 @@ class HomeFragment : Fragment() {
 
     companion object {
         const val ITEM_VIEW_CACHE_SIZE = 30
+        const val TAG = "HomeFragment"
+        const val CHILD_STATES = "child_states"
+
+        @JvmStatic
+        fun getInstance() = HomeFragment()
     }
 }
