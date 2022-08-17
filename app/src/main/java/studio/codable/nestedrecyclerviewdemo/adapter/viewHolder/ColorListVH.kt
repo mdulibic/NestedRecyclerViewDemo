@@ -38,6 +38,7 @@ class ColorListVH (
 
     fun bind(item: ViewTypeItem.ColorListView) {
         this.item = item
+
             binding.rvChildItems.apply {
                 layoutManager = LinearLayoutManager(binding.root.context).apply {
                     orientation = LinearLayoutManager.HORIZONTAL
@@ -61,12 +62,12 @@ class ColorListVH (
     override fun onSaveInstanceState(): HomeViewHolder.State {
         return HomeViewHolder.State(
             binding.rvChildItems.layoutManager?.onSaveInstanceState(),
-            item.hashCode()
+            item?.colors.hashCode()
         )
     }
 
     override fun restoreState(state: HomeViewHolder.State) {
-        if (item.hashCode() == state.contentHashCode) {
+        if (item?.colors.hashCode() == state.contentHashCode) {
             Log.d("ColorListVH","Found a match for $this")
             binding.rvChildItems.layoutManager?.onRestoreInstanceState(state.layoutManagerParcelable)
         }
