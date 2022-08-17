@@ -1,6 +1,5 @@
 package studio.codable.nestedrecyclerviewdemo
 
-import android.graphics.Insets.add
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -23,5 +22,8 @@ FragmentTransaction) {
 }
 
 fun AppCompatActivity.replaceFragment(frameId: Int, fragment: Fragment) {
-    supportFragmentManager.doTransaction{replace(frameId, fragment)}
+    supportFragmentManager.doTransaction{
+        replace(frameId, fragment)
+        addToBackStack(null)
+    }
 }

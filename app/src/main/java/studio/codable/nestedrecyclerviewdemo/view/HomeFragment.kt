@@ -20,7 +20,8 @@ import studio.codable.nestedrecyclerviewdemo.replaceFragment
 
 class HomeFragment : Fragment() {
 
-    private lateinit var binding: FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var parentPaletteAdapter: ParentPaletteAdapter
 
@@ -30,7 +31,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,11 +40,14 @@ class HomeFragment : Fragment() {
         initRecyclerView()
         observeLiveData()
         onClickListener()
+        vm.getPaletteList()
     }
 
     private fun onClickListener() {
         binding.btnSwitchFragment.setOnClickListener {
-            (requireActivity() as AppCompatActivity).replaceFragment(R.id.fragment_container_view, SecondFragment.getInstance())
+            (requireActivity() as AppCompatActivity).apply {
+                replaceFragment(R.id.fragment_container_view, SecondFragment.getInstance())
+            }
         }
     }
 
@@ -51,8 +55,6 @@ class HomeFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-
-        Log.d(TAG, "onPause")
 
         val stateBundle = Bundle()
 
@@ -75,8 +77,6 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        Log.d(TAG, "onResume")
-
         vm.getPaletteList()
 
         val childViewHolders =
@@ -87,7 +87,9 @@ class HomeFragment : Fragment() {
 
             childStates?.keySet()?.forEach { key ->
                 val childState = HomeViewHolder.State(childStates[key] as Parcelable?, key.toInt())
+
                 childViewHolders.forEach { child ->
+                    Log.w(TAG, "restore $child")
                     child.restoreState(childState)
                 }
             }
@@ -134,8 +136,5 @@ class HomeFragment : Fragment() {
         const val ITEM_VIEW_CACHE_SIZE = 30
         const val TAG = "HomeFragment"
         const val CHILD_STATES = "child_states"
-
-        @JvmStatic
-        fun getInstance() = HomeFragment()
     }
 }
