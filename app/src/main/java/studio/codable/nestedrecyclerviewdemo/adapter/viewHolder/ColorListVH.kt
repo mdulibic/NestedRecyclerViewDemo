@@ -27,7 +27,7 @@ class ColorListVH (
         }
     }
 
-    fun bind(items: List<ColorItem>) {
+    fun bind(item: ViewTypeItem.ColorListView) {
             binding.rvChildItems.apply {
                 layoutManager = this@ColorListVH.layoutManager
                 adapter = childColorsAdapter
@@ -36,6 +36,6 @@ class ColorListVH (
                 addItemDecoration(itemDecoration)
                 isNestedScrollingEnabled = false
             }
-        childColorsAdapter.update(items)
+        childColorsAdapter.update(item.colors)
     }
 }
