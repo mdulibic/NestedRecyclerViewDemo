@@ -7,33 +7,33 @@ import androidx.recyclerview.widget.RecyclerView
 import studio.codable.nestedrecyclerviewdemo.adapter.ChildColorsAdapter
 import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem
 import studio.codable.nestedrecyclerviewdemo.databinding.LayoutColorItemListBinding
-import studio.codable.nestedrecyclerviewdemo.model.ColorItem
 
-class ColorListVH (
+class ColorListVH(
     private val binding: LayoutColorItemListBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val childColorsAdapter = ChildColorsAdapter()
+    private val layoutManager = LinearLayoutManager(binding.root.context).apply {
+        orientation = LinearLayoutManager.HORIZONTAL
+    }
 
     private var itemDecoration = object : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
             outRect: Rect, view: View,
             parent: RecyclerView, state: RecyclerView.State
         ) {
-                outRect.left = 16
+            outRect.left = 16
         }
     }
 
     fun bind(item: ViewTypeItem.ColorListView) {
-            binding.rvChildItems.apply {
-                layoutManager = LinearLayoutManager(binding.root.context).apply {
-                    orientation = LinearLayoutManager.HORIZONTAL
-                }
-                adapter = childColorsAdapter
-                removeItemDecoration(itemDecoration)
-                addItemDecoration(itemDecoration)
-                isNestedScrollingEnabled = false
-            }
+        binding.rvChildItems.apply {
+            layoutManager = this@ColorListVH.layoutManager
+            adapter = childColorsAdapter
+            removeItemDecoration(itemDecoration)
+            addItemDecoration(itemDecoration)
+            isNestedScrollingEnabled = false
+        }
         childColorsAdapter.setChildItems(item.colorItems)
     }
 }
