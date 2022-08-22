@@ -5,8 +5,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import studio.codable.nestedrecyclerviewdemo.adapter.ChildColorsAdapter
+import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem
 import studio.codable.nestedrecyclerviewdemo.databinding.LayoutColorItemListBinding
-import studio.codable.nestedrecyclerviewdemo.model.ColorItem
 
 class ColorListVH (
     private val binding: LayoutColorItemListBinding,
@@ -14,6 +14,9 @@ class ColorListVH (
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val childColorsAdapter = ChildColorsAdapter()
+    private val layoutManager = LinearLayoutManager(binding.root.context).apply {
+        orientation = LinearLayoutManager.HORIZONTAL
+    }
 
     private var itemDecoration = object : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
@@ -26,9 +29,7 @@ class ColorListVH (
 
     fun bind(items: List<ColorItem>) {
             binding.rvChildItems.apply {
-                layoutManager = LinearLayoutManager(binding.root.context).apply {
-                    orientation = LinearLayoutManager.HORIZONTAL
-                }
+                layoutManager = this@ColorListVH.layoutManager
                 adapter = childColorsAdapter
                 setRecycledViewPool(parentRecycledViewPool)
                 removeItemDecoration(itemDecoration)

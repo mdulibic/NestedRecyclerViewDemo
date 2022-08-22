@@ -42,9 +42,11 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         const val VIEW_TYPE_CHILD_ITEM = 12
         const val VIEW_TYPE_HEADER = 13
+        const val PARENT_PALETTE_ADAPTER = "ParentPaletteAdapter"
     }
 
     fun update(newItems: List<ViewTypeItem>) {
+        Log.d(PARENT_PALETTE_ADAPTER, "New items: $newItems")
         differ.submitList(newItems)
     }
 
@@ -52,6 +54,7 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context
+        Log.d(PARENT_PALETTE_ADAPTER, "View type $viewType")
 
         return when (viewType) {
             VIEW_TYPE_HEADER -> {
@@ -73,7 +76,7 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     parentRecycledViewPool
                 )
             }
-            else -> throw IllegalStateException()
+            else -> throw IllegalStateException("Unknown view type")
         }
     }
 
@@ -81,12 +84,8 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val item = differ.currentList[position]
 
         when (holder) {
-            is ColorListVH -> {
-                holder.bind((item as ColorListView).colors)
-            }
-            is HeaderVH -> {
-                holder.bind((item as HeaderView).title)
-            }
+            is ColorListVH -> holder.bind(item as ColorListView)
+            is HeaderVH -> holder.bind(item as HeaderView)
         }
     }
 
