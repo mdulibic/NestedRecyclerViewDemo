@@ -13,7 +13,7 @@ class ColorListVH(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val childColorsAdapter = ChildColorsAdapter()
-    private val layoutManager = LinearLayoutManager(binding.root.context).apply {
+    private val linearLayoutManager = LinearLayoutManager(binding.root.context).apply {
         orientation = LinearLayoutManager.HORIZONTAL
     }
 
@@ -28,11 +28,10 @@ class ColorListVH(
 
     fun bind(item: ViewTypeItem.ColorListView) {
         binding.rvChildItems.apply {
-            layoutManager = this@ColorListVH.layoutManager
+            layoutManager = linearLayoutManager
             adapter = childColorsAdapter
             removeItemDecoration(itemDecoration)
             addItemDecoration(itemDecoration)
-            isNestedScrollingEnabled = false
         }
         childColorsAdapter.setChildItems(item.colorItems)
     }
