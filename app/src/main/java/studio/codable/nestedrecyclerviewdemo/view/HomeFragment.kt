@@ -133,6 +133,12 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
+        /**
+         * === Optimize performance ===
+         * 5. Setting RecyclerView’s itemViewCacheSize
+         * Item view cache size is determined depending on the numbers of the offscreen views
+         * you want to retain before recycling them
+         */
         const val ITEM_VIEW_CACHE_SIZE = 30
         const val TAG = "HomeFragment"
         const val CHILD_STATES = "child_states"

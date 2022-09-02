@@ -1,7 +1,6 @@
 package studio.codable.nestedrecyclerviewdemo.adapter.viewHolder
 
 import android.graphics.Rect
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
