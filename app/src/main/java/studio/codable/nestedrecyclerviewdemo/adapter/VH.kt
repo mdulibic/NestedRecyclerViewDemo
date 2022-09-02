@@ -12,7 +12,8 @@ import studio.codable.nestedrecyclerviewdemo.databinding.LayoutColorItemListBind
 sealed class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
     class ColorListVH(
-        private val binding: LayoutColorItemListBinding
+        private val binding: LayoutColorItemListBinding,
+        private val parentRecycledViewPool: RecyclerView.RecycledViewPool
     ) : VH(binding) {
 
         private val childColorsAdapter = ChildColorsAdapter()
@@ -33,10 +34,13 @@ sealed class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
             binding.rvChildItems.apply {
                 layoutManager = linearLayoutManager
                 adapter = childColorsAdapter
+
+                setRecycledViewPool(parentRecycledViewPool)
+
                 removeItemDecoration(itemDecoration)
                 addItemDecoration(itemDecoration)
             }
-            childColorsAdapter.setChildItems(item.colorItems)
+            childColorsAdapter.update(item.colors)
         }
     }
 

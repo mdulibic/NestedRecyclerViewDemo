@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem
 import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem.*
-import studio.codable.nestedrecyclerviewdemo.adapter.viewHolder.ColorListVH
-import studio.codable.nestedrecyclerviewdemo.adapter.viewHolder.HeaderVH
 import studio.codable.nestedrecyclerviewdemo.databinding.ItemHeaderBinding
 import studio.codable.nestedrecyclerviewdemo.databinding.LayoutColorItemListBinding
 
@@ -87,6 +85,7 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (holder) {
             is VH.ColorListVH -> holder.bind(item as ColorListView)
             is VH.HeaderVH -> holder.bind(item as HeaderView)
+            else -> throw IllegalStateException("Unknown view holder: $holder")
         }
     }
 
