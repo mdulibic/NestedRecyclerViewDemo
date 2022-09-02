@@ -17,11 +17,11 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun List<Palette>.toViewTypeItemList(): List<ViewTypeItem> {
-        val listItems: ArrayList<ViewTypeItem> = arrayListOf()
-        this.forEach {
-            listItems.add(ViewTypeItem.HeaderView(title = it.name))
-            listItems.add(ViewTypeItem.ColorListView(colors = it.colors))
+        return arrayListOf<ViewTypeItem>().also {
+            this.forEach { palette ->
+                it.add(ViewTypeItem.HeaderView(title = palette.name))
+                it.add(ViewTypeItem.ColorListView(colors = palette.colors))
+            }
         }
-        return listItems
     }
 }
