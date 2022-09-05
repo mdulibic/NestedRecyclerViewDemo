@@ -51,56 +51,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private var savedState: Bundle? = null
-
-    override fun onPause() {
-        super.onPause()
-
-        val stateBundle = Bundle()
-
-        binding.rvParent.children.forEachIndexed { _, view ->
-            (binding.rvParent.getChildViewHolder(view) as? HomeViewHolder)?.let { homeVh ->
-                val childState = homeVh.onSaveInstanceState()
-                childState?.let {
-                    stateBundle.putParcelable(
-                        it.contentHashCode.toString(),
-                        it.layoutManagerParcelable
-                    )
-                } ?: Log.w(TAG, "$homeVh didn't return child State")
-            } ?: Log.w(TAG, "$view does not implement HomeViewHolder")
-        }
-
-        savedState = Bundle()
-        savedState?.putBundle(CHILD_STATES, stateBundle)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        vm.getPaletteList()
-
-        val childViewHolders =
-            binding.rvParent.children.mapNotNull { binding.rvParent.getChildViewHolder(it) as? HomeViewHolder }
-
-        savedState?.let { bundle ->
-            val childStates = bundle.get(CHILD_STATES) as? Bundle
-
-            childStates?.keySet()?.forEach { key ->
-                val childState = HomeViewHolder.State(childStates[key] as Parcelable?, key.toInt())
-
-                childViewHolders.forEach { child ->
-                    Log.w(TAG, "restore $child")
-                    child.restoreState(childState)
-                }
-            }
-        }
-
-        savedState = null
-    }
-
     private fun observeLiveData() {
         vm.paletteListHomeData.observe(viewLifecycleOwner) {
-            parentPaletteAdapter.update(it)
+            parentPaletteAdapter.submitList(it)
         }
     }
 
@@ -116,7 +69,7 @@ class HomeFragment : Fragment() {
              * allowing a LayoutManager to reuse those views unmodified without needing
              * to return to the adapter to rebind them.
              */
-            setItemViewCacheSize(ITEM_VIEW_CACHE_SIZE)
+            //setItemViewCacheSize(ITEM_VIEW_CACHE_SIZE)
             layoutManager = LinearLayoutManager(requireContext()).apply {
                 orientation = LinearLayoutManager.VERTICAL
                 /**
@@ -126,7 +79,7 @@ class HomeFragment : Fragment() {
                  * it might be a good idea to set the flag recycleChildrenOnDetach to true
                  * so that views will be available to other RecyclerViews immediately.
                  */
-                recycleChildrenOnDetach = true
+                //recycleChildrenOnDetach = true
             }
             adapter = parentPaletteAdapter
         }

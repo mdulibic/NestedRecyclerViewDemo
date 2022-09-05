@@ -1,14 +1,8 @@
 package studio.codable.nestedrecyclerviewdemo.adapter.viewHolder
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import androidx.recyclerview.widget.RecyclerView
 
 interface HomeViewHolder {
-
-    @Parcelize
-    data class State(val layoutManagerParcelable: Parcelable?, val contentHashCode: Int): Parcelable
-
-    fun onSaveInstanceState(): State?
-
-    fun restoreState(state: State)
+    fun getId(): Int
+    fun getLayoutManager(): RecyclerView.LayoutManager?
 }

@@ -1,15 +1,17 @@
 package studio.codable.nestedrecyclerviewdemo.adapter
 
 import android.graphics.Color.parseColor
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.codable.nestedrecyclerviewdemo.databinding.ItemColorBinding
 import studio.codable.nestedrecyclerviewdemo.model.ColorItem
 
-class ChildColorsAdapter: RecyclerView.Adapter<ChildColorsAdapter.ChildColorsVH>() {
+class ChildColorsAdapter :
+    ListAdapter<ColorItem, ChildColorsAdapter.ChildColorsVH>(DiffUtilColorItem()) {
 
     /**
      * === Optimize performance ===
@@ -20,40 +22,48 @@ class ChildColorsAdapter: RecyclerView.Adapter<ChildColorsAdapter.ChildColorsVH>
      * Then we must override getItemId(int position),to return identified long for the
      * item at position
      */
+
     init {
         setHasStableIds(true)
     }
 
     override fun getItemId(position: Int): Long {
-        return differ.currentList[position].id
+        return getItem(position).id.toLong()
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<ColorItem>() {
-        override fun areItemsTheSame(oldItem:ColorItem, newItem: ColorItem): Boolean {
+
+    private class DiffUtilColorItem : DiffUtil.ItemCallback<ColorItem>() {
+
+        override fun areItemsTheSame(oldItem: ColorItem, newItem: ColorItem): Boolean {
+            Log.d(
+                "ChildColorsAdapter",
+                "areItemsTheSame: ${oldItem::class.simpleName == newItem::class.simpleName} -> ${oldItem::class.simpleName} == ${newItem::class.simpleName}"
+            )
+            return oldItem::class.simpleName == newItem::class.simpleName
+        }
+
+        override fun areContentsTheSame(oldItem: ColorItem, newItem: ColorItem): Boolean {
+            Log.d(
+                "ChildColorsAdapter",
+                "areContentsTheSame: ${oldItem.id == newItem.id} -> ${oldItem.id} == ${newItem.id}"
+            )
             return oldItem.id == newItem.id
         }
-
-        override fun areContentsTheSame(oldItem:ColorItem, newItem:ColorItem): Boolean {
-            return oldItem == newItem
-        }
     }
 
-    private val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChildColorsVH {
-        val binding =
-            ItemColorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ChildColorsVH(binding)
+        return ChildColorsVH(
+            ItemColorBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ChildColorsVH, position: Int) {
-        return holder.bind(differ.currentList[position])
-    }
-
-    override fun getItemCount(): Int = differ.currentList.size
-
-    fun update(newItems: List<ColorItem>) {
-        differ.submitList(newItems)
+        return holder.bind(getItem(position))
     }
 
     inner class ChildColorsVH(private val binding: ItemColorBinding) :
@@ -64,6 +74,6 @@ class ChildColorsAdapter: RecyclerView.Adapter<ChildColorsAdapter.ChildColorsVH>
                 tvName.text = item.name
                 bgItem.setCardBackgroundColor(parseColor(item.hexCode))
             }
-            }
         }
+    }
 }
