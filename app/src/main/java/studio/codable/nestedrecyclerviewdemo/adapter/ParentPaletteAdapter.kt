@@ -86,7 +86,6 @@ class ParentPaletteAdapter : ScrollStateRecoveryAdapter<VH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val context = parent.context
-        Log.d(LOG_TAG, "View type $viewType")
 
         return when (viewType) {
             VIEW_TYPE_HEADER -> {

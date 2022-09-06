@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import studio.codable.nestedrecyclerviewdemo.HomeViewModel
 import studio.codable.nestedrecyclerviewdemo.R
 import studio.codable.nestedrecyclerviewdemo.adapter.ParentPaletteAdapter
+import studio.codable.nestedrecyclerviewdemo.adapter.scrollStateRecovery.ScrollStateRecoveryLinearLayoutManager
 import studio.codable.nestedrecyclerviewdemo.databinding.FragmentHomeBinding
 import studio.codable.nestedrecyclerviewdemo.replaceFragment
 
@@ -47,6 +48,8 @@ class HomeFragment : Fragment() {
         }
     }
 
+
+
     private fun observeLiveData() {
         vm.paletteListHomeData.observe(viewLifecycleOwner) {
             parentPaletteAdapter.update(it)
@@ -66,7 +69,7 @@ class HomeFragment : Fragment() {
              * to return to the adapter to rebind them.
              */
             //setItemViewCacheSize(ITEM_VIEW_CACHE_SIZE)
-            layoutManager = LinearLayoutManager(requireContext()).apply {
+            layoutManager = ScrollStateRecoveryLinearLayoutManager(requireContext(), binding.rvParent).apply {
                 orientation = LinearLayoutManager.VERTICAL
                 /**
                  * === Optimize performance ===

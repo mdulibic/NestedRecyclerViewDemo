@@ -1,6 +1,7 @@
 package studio.codable.nestedrecyclerviewdemo.adapter
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +17,10 @@ sealed class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
         private val binding: LayoutColorItemListBinding,
         private val parentRecycledViewPool: RecyclerView.RecycledViewPool
     ) : VH(binding), ScrollStateRecoveryViewHolder {
+
+        companion object {
+            const val LOG_TAG = "ColorListVH"
+        }
 
         private val childColorsAdapter = ChildColorsAdapter()
         private val linearLayoutManager = LinearLayoutManager(binding.root.context).apply {
@@ -56,6 +61,20 @@ sealed class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
                 childColorsAdapter.forceUpdate(item.palette.colors)
             } else {
                 childColorsAdapter.update(item.palette.colors)
+            }
+        }
+
+        override fun onSaveInstanceState(): ScrollStateRecoveryViewHolder.State {
+            return ScrollStateRecoveryViewHolder.State(
+                item.palette.id,
+                binding.rvChildItems.layoutManager?.onSaveInstanceState()
+            )
+        }
+
+        override fun restoreState(state: ScrollStateRecoveryViewHolder.State) {
+            if (item.palette.id == state.contentId) {
+                Log.d(LOG_TAG,"Found a match for $this")
+                binding.rvChildItems.layoutManager?.onRestoreInstanceState(state.layoutManagerParcelable)
             }
         }
 
