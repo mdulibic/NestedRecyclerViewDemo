@@ -1,20 +1,16 @@
 package studio.codable.nestedrecyclerviewdemo.view
 
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import studio.codable.nestedrecyclerviewdemo.HomeViewModel
 import studio.codable.nestedrecyclerviewdemo.R
 import studio.codable.nestedrecyclerviewdemo.adapter.ParentPaletteAdapter
-import studio.codable.nestedrecyclerviewdemo.adapter.viewHolder.HomeViewHolder
 import studio.codable.nestedrecyclerviewdemo.databinding.FragmentHomeBinding
 import studio.codable.nestedrecyclerviewdemo.replaceFragment
 
@@ -53,7 +49,7 @@ class HomeFragment : Fragment() {
 
     private fun observeLiveData() {
         vm.paletteListHomeData.observe(viewLifecycleOwner) {
-            parentPaletteAdapter.submitList(it)
+            parentPaletteAdapter.update(it)
         }
     }
 
@@ -79,7 +75,7 @@ class HomeFragment : Fragment() {
                  * it might be a good idea to set the flag recycleChildrenOnDetach to true
                  * so that views will be available to other RecyclerViews immediately.
                  */
-                //recycleChildrenOnDetach = true
+                recycleChildrenOnDetach = true
             }
             adapter = parentPaletteAdapter
         }

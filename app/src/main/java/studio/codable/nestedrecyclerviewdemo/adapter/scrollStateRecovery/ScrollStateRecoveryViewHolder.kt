@@ -1,8 +1,8 @@
-package studio.codable.nestedrecyclerviewdemo.adapter.viewHolder
+package studio.codable.nestedrecyclerviewdemo.adapter.scrollStateRecovery
 
 import androidx.recyclerview.widget.RecyclerView
 
-interface HomeViewHolder {
+interface ScrollStateRecoveryViewHolder {
     fun getId(): Int
     fun getLayoutManager(): RecyclerView.LayoutManager?
 }

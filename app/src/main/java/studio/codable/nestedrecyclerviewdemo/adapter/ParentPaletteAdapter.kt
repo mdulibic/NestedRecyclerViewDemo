@@ -3,31 +3,64 @@ package studio.codable.nestedrecyclerviewdemo.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem
 import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem.HeaderView
 import studio.codable.nestedrecyclerviewdemo.adapter.model.ViewTypeItem.PaletteView
+import studio.codable.nestedrecyclerviewdemo.adapter.scrollStateRecovery.ScrollStateRecoveryAdapter
 import studio.codable.nestedrecyclerviewdemo.databinding.ItemHeaderBinding
 import studio.codable.nestedrecyclerviewdemo.databinding.LayoutColorItemListBinding
 
-class ParentPaletteAdapter : ScrollStateRecoveryAdapter<ViewTypeItem, VH>(DiffUtilViewTypeItem()) {
+class ParentPaletteAdapter : ScrollStateRecoveryAdapter<VH>() {
 
     /**
      * === Optimize performance ===
      * 3. Implement DiffUtil
      * Improve RecyclerView’s performance when handling list updates.
      */
-
-    private class DiffUtilViewTypeItem : DiffUtil.ItemCallback<ViewTypeItem>() {
+    private val differCallback = object : DiffUtil.ItemCallback<ViewTypeItem>() {
         override fun areItemsTheSame(oldItem: ViewTypeItem, newItem: ViewTypeItem): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+            when (oldItem) {
+                is HeaderView -> {
+                    return if (newItem is HeaderView) {
+                        oldItem.title == newItem.title
+                    } else {
+                        false
+                    }
+                }
+                is PaletteView -> {
+                    return if (newItem is PaletteView) {
+                        oldItem.palette == newItem.palette
+                    } else {
+                        false
+                    }
+                }
+            }
         }
 
         override fun areContentsTheSame(oldItem: ViewTypeItem, newItem: ViewTypeItem): Boolean {
-            return oldItem == newItem
+            when (oldItem) {
+                is HeaderView -> {
+                    return if (newItem is HeaderView) {
+                        oldItem.title == newItem.title
+                    } else {
+                        false
+                    }
+                }
+                is PaletteView -> {
+                    return if (newItem is PaletteView) {
+                        oldItem.palette == newItem.palette
+                    } else {
+                        false
+                    }
+                }
+            }
         }
     }
+
+    private val differ = AsyncListDiffer(this, differCallback)
 
     /**
      * === Optimize performance ===
@@ -44,7 +77,12 @@ class ParentPaletteAdapter : ScrollStateRecoveryAdapter<ViewTypeItem, VH>(DiffUt
         const val LOG_TAG = "ParentPaletteAdapter"
     }
 
-    override fun getItemViewType(position: Int): Int = getItem(position).viewType
+    fun update(newItems: List<ViewTypeItem>) {
+        saveState()
+        differ.submitList(newItems)
+    }
+
+    override fun getItemViewType(position: Int): Int = differ.currentList[position].viewType
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val context = parent.context
@@ -75,7 +113,7 @@ class ParentPaletteAdapter : ScrollStateRecoveryAdapter<ViewTypeItem, VH>(DiffUt
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val item = getItem(position)
+        val item = differ.currentList[position]
 
         when (holder) {
             is VH.ColorListVH -> holder.bind(item as PaletteView)
@@ -83,4 +121,6 @@ class ParentPaletteAdapter : ScrollStateRecoveryAdapter<ViewTypeItem, VH>(DiffUt
         }
         super.onBindViewHolder(holder, position)
     }
+
+    override fun getItemCount(): Int = differ.currentList.size
 }
