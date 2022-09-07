@@ -4,58 +4,86 @@ import studio.codable.nestedrecyclerviewdemo.model.ColorItem
 import studio.codable.nestedrecyclerviewdemo.model.Palette
 
 fun getTestData(): List<Palette> =
-    listOf(Palette(name = "Palette 1",
-        colors = listOf(ColorItem(id = 1,"Palatinate purple", "#5C2751"),
-            ColorItem(id = 2,"Liberty", "#6457A6"),
-            ColorItem(id = 3,"Maximum Blue Purple", "#9DACFF"),
-            ColorItem(id = 4,"Sky Blue Crayola", "#76E5FC"))),
-        Palette(name = "Palette 2",
-            colors = listOf(ColorItem(id = 5,"Nyanza", "#DCEED1"),
-                ColorItem(id = 6,"Cambridge Blue", "#AAC0AA"),
-                ColorItem(id = 7,"Old Lavender", "#736372"),
-                ColorItem(id = 8,"Beaver", "#A18276"))),
-        Palette(name = "Palette 3",
-            colors = listOf(ColorItem(id = 9,"Eggplant", "#52414C"),
-                ColorItem(id = 10,"Ebony", "#596157"),
-                ColorItem(id = 11,"Middle Green", "#5B8C5A"),
-                ColorItem(id = 12,"Green Yellow Crayola", "#CFD186"),
-                ColorItem(id = 13,"Fire Opal", "#E3655B"))),
-        Palette(name = "Palette 4",
-            colors = listOf(ColorItem(id = 14,"Viridian Green", "#0FA3B1"),
-                ColorItem(id = 15,"Honeydew", "#D9E5D6"),
-                ColorItem(id = 16,"Medium Champagne", "#EDDEA4"),
-                ColorItem(id = 17,"Atomic Tangerine", "#F7A072"),
-                ColorItem(id = 18,"Deep Saffron", "#FF9B42"))),
-        Palette(name = "Palette 5",
-            colors = listOf(ColorItem(id = 19,"Bittersweet", "#FF6666"),
-                ColorItem(id = 20,"Inchworm", "#CCFF66"),
-                ColorItem(id = 21,"Tiffany Blue", "#2EC4B6"),
-                ColorItem(id = 22,"Lemon Meringue", "#F1E8B8"))),
-        Palette(name = "Palette 1",
-            colors = listOf(ColorItem(id = 23,"Palatinate purple", "#5C2751"),
-                ColorItem(id = 24,"Liberty", "#6457A6"),
-                ColorItem(id = 25,"Maximum Blue Purple", "#9DACFF"),
-                ColorItem(id = 26,"Sky Blue Crayola", "#76E5FC"))),
-        Palette(name = "Palette 2",
-            colors = listOf(ColorItem(id = 27,"Nyanza", "#DCEED1"),
-                ColorItem(id = 28,"Cambridge Blue", "#AAC0AA"),
-                ColorItem(id = 29,"Old Lavender", "#736372"),
-                ColorItem(id = 30,"Beaver", "#A18276"))),
-        Palette(name = "Palette 3",
-            colors = listOf(ColorItem(id = 31,"Eggplant", "#52414C"),
-                ColorItem(id = 32,"Ebony", "#596157"),
-                ColorItem(id = 33,"Middle Green", "#5B8C5A"),
-                ColorItem(id = 34,"Green Yellow Crayola", "#CFD186"),
-                ColorItem(id = 35,"Fire Opal", "#E3655B"))),
-        Palette(name = "Palette 4",
-            colors = listOf(ColorItem(id = 36,"Viridian Green", "#0FA3B1"),
-                ColorItem(id = 37,"Honeydew", "#D9E5D6"),
-                ColorItem(id = 38,"Medium Champagne", "#EDDEA4"),
-                ColorItem(id = 39,"Atomic Tangerine", "#F7A072"),
-                ColorItem(id = 40,"Deep Saffron", "#FF9B42"))),
-        Palette(name = "Palette 5",
-            colors = listOf(ColorItem(id = 41,"Bittersweet", "#FF6666"),
-                ColorItem(id = 42,"Inchworm", "#CCFF66"),
-                ColorItem(id = 43,"Tiffany Blue", "#2EC4B6"),
-                ColorItem(id = 44,"Lemon Meringue", "#F1E8B8")))
+    listOf(
+        Palette(
+            id = 1, name = "Palette 1",
+            colors = listOf(
+                ColorItem(id = 1, "Color 1", "#F0B446"),
+                ColorItem(id = 2, "Color 2", "#A5C8D7"),
+                ColorItem(id = 3, "Color 3", "#D2AFD2"),
+                ColorItem(id = 4, "Color 4", "#B4DCC8")
+            )
+        ),
+        Palette(
+            id = 2, name = "Palette 2",
+            colors = listOf(
+                ColorItem(id = 5, "Color 1", "#D2AFD2"),
+                ColorItem(id = 6, "Color 2", "#A5C8D7"),
+                ColorItem(id = 7, "Color 3", "#B4DCC8"),
+                ColorItem(id = 8, "Color 4", "#F0B446")
+            )
+        ),
+        Palette(
+            id = 3, name = "Palette 3",
+            colors = listOf(
+                ColorItem(id = 9, "Color 1", "#B4DCC8"),
+                ColorItem(id = 10, "Color 2", "#D2AFD2"),
+                ColorItem(id = 11, "Color 3", "#F0B446"),
+                ColorItem(id = 12, "Color 4", "#A5C8D7")
+            )
+        ),
+        Palette(
+            id = 4, name = "Palette 4",
+            colors = listOf(
+                ColorItem(id = 13, "Color 1", "#F0B446"),
+                ColorItem(id = 14, "Color 2", "#A5C8D7"),
+                ColorItem(id = 15, "Color 3", "#D2AFD2"),
+                ColorItem(id = 16, "Color 4", "#B4DCC8")
+            )
+        ),
+        Palette(
+            id = 5, name = "Palette 5",
+            colors = listOf(
+                ColorItem(id = 17, "Color 1", "#D2AFD2"),
+                ColorItem(id = 18, "Color 2", "#A5C8D7"),
+                ColorItem(id = 19, "Color 3", "#B4DCC8"),
+                ColorItem(id = 20, "Color 4", "#F0B446")
+            )
+        ),
+        Palette(
+            id = 6, name = "Palette 6",
+            colors = listOf(
+                ColorItem(id = 21, "Color 1", "#B4DCC8"),
+                ColorItem(id = 22, "Color 2", "#D2AFD2"),
+                ColorItem(id = 23, "Color 3", "#F0B446"),
+                ColorItem(id = 24, "Color 4", "#A5C8D7")
+            )
+        ),
+        Palette(
+            id = 7, name = "Palette 7",
+            colors = listOf(
+                ColorItem(id = 25, "Color 1", "#F0B446"),
+                ColorItem(id = 26, "Color 2", "#A5C8D7"),
+                ColorItem(id = 27, "Color 3", "#D2AFD2"),
+                ColorItem(id = 28, "Color 4", "#B4DCC8")
+            )
+        ),
+        Palette(
+            id = 8, name = "Palette 8",
+            colors = listOf(
+                ColorItem(id = 29, "Color 1", "#D2AFD2"),
+                ColorItem(id = 30, "Color 2", "#A5C8D7"),
+                ColorItem(id = 31, "Color 3", "#B4DCC8"),
+                ColorItem(id = 32, "Color 4", "#F0B446")
+            )
+        ),
+        Palette(
+            id = 9, name = "Palette 9",
+            colors = listOf(
+                ColorItem(id = 34, "Color 1", "#B4DCC8"),
+                ColorItem(id = 35, "Color 2", "#D2AFD2"),
+                ColorItem(id = 36, "Color 3", "#F0B446"),
+                ColorItem(id = 37, "Color 4", "#A5C8D7")
+            )
+        )
     )
