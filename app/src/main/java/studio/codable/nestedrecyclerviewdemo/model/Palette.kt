@@ -1,6 +1,7 @@
 package studio.codable.nestedrecyclerviewdemo.model
 
 data class Palette(
+    val id: Int,
     val name: String,
-    val colorItems: List<ColorItem>
+    val colors: List<ColorItem>
 )
