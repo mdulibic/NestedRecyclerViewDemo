@@ -37,14 +37,14 @@ sealed class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
             }
         }
 
-        fun bind(item: ViewTypeItem.PaletteView) {
+        fun bind(item: ViewTypeItem.ColorListView) {
             binding.rvChildItems.apply {
                 setRecycledViewPool(parentRecycledViewPool)
 
                 removeItemDecoration(itemDecoration)
                 addItemDecoration(itemDecoration)
             }
-            childColorsAdapter.update(item.palette.colors)
+            childColorsAdapter.update(item.colorItems)
         }
     }
 

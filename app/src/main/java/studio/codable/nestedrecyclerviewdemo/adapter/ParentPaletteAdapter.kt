@@ -28,9 +28,9 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         false
                     }
                 }
-                is PaletteView -> {
-                    return if (newItem is PaletteView) {
-                        oldItem.palette == newItem.palette
+                is ColorListView -> {
+                    return if (newItem is ColorListView) {
+                        oldItem.colorItems == newItem.colorItems
                     } else {
                         false
                     }
@@ -47,9 +47,9 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         false
                     }
                 }
-                is PaletteView -> {
-                    return if (newItem is PaletteView) {
-                        oldItem.palette == newItem.palette
+                is ColorListView -> {
+                    return if (newItem is ColorListView) {
+                        oldItem.colorItems == newItem.colorItems
                     } else {
                         false
                     }
@@ -113,7 +113,7 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val item = differ.currentList[position]
 
         when (holder) {
-            is VH.ColorListVH -> holder.bind(item as PaletteView)
+            is VH.ColorListVH -> holder.bind(item as ColorListView)
             is VH.HeaderVH -> holder.bind(item as HeaderView)
             else -> throw IllegalStateException("Unknown view holder: $holder")
         }

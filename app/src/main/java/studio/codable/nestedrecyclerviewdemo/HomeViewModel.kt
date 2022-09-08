@@ -20,7 +20,7 @@ class HomeViewModel : ViewModel() {
         return arrayListOf<ViewTypeItem>().also {
             this.forEach { palette ->
                 it.add(ViewTypeItem.HeaderView(title = palette.name))
-                it.add(ViewTypeItem.PaletteView(palette = palette))
+                it.add(ViewTypeItem.ColorListView(colorItems = palette.colors))
             }
         }
     }
