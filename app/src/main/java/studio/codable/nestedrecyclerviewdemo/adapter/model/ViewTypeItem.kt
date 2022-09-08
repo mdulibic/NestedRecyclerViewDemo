@@ -11,8 +11,7 @@ sealed class ViewTypeItem {
         override val viewType: Int = ParentPaletteAdapter.VIEW_TYPE_CHILD_ITEM
     }
 
-    data class HeaderView(val title: String) :
-        ViewTypeItem() {
+    data class HeaderView(val title: String) : ViewTypeItem() {
         override val viewType: Int = ParentPaletteAdapter.VIEW_TYPE_HEADER
     }
 
