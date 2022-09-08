@@ -20,11 +20,41 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      */
     private val differCallback = object : DiffUtil.ItemCallback<ViewTypeItem>() {
         override fun areItemsTheSame(oldItem: ViewTypeItem, newItem: ViewTypeItem): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+            when (oldItem) {
+                is HeaderView -> {
+                    return if (newItem is HeaderView) {
+                        oldItem.title == newItem.title
+                    } else {
+                        false
+                    }
+                }
+                is PaletteView -> {
+                    return if (newItem is PaletteView) {
+                        oldItem.palette == newItem.palette
+                    } else {
+                        false
+                    }
+                }
+            }
         }
 
         override fun areContentsTheSame(oldItem: ViewTypeItem, newItem: ViewTypeItem): Boolean {
-            return oldItem == newItem
+            when (oldItem) {
+                is HeaderView -> {
+                    return if (newItem is HeaderView) {
+                        oldItem.title == newItem.title
+                    } else {
+                        false
+                    }
+                }
+                is PaletteView -> {
+                    return if (newItem is PaletteView) {
+                        oldItem.palette == newItem.palette
+                    } else {
+                        false
+                    }
+                }
+            }
         }
     }
 
@@ -83,7 +113,7 @@ class ParentPaletteAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val item = differ.currentList[position]
 
         when (holder) {
-            is VH.ColorListVH -> holder.bind(item as ColorListView)
+            is VH.ColorListVH -> holder.bind(item as PaletteView)
             is VH.HeaderVH -> holder.bind(item as HeaderView)
             else -> throw IllegalStateException("Unknown view holder: $holder")
         }

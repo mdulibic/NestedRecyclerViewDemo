@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
              * allowing a LayoutManager to reuse those views unmodified without needing
              * to return to the adapter to rebind them.
              */
-            setItemViewCacheSize(ITEM_VIEW_CACHE_SIZE)
+            //setItemViewCacheSize(ITEM_VIEW_CACHE_SIZE)
             layoutManager = LinearLayoutManager(requireContext()).apply {
                 orientation = LinearLayoutManager.VERTICAL
                 /**
@@ -64,7 +64,7 @@ class HomeFragment : Fragment() {
                  * it might be a good idea to set the flag recycleChildrenOnDetach to true
                  * so that views will be available to other RecyclerViews immediately.
                  */
-                recycleChildrenOnDetach = true
+                //recycleChildrenOnDetach = true
             }
             adapter = parentPaletteAdapter
         }

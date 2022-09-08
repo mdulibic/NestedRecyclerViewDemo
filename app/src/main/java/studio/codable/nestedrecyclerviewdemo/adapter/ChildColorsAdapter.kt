@@ -21,6 +21,8 @@ class ChildColorsAdapter: RecyclerView.Adapter<ChildColorsAdapter.ChildColorsVH>
      * Then we must override getItemId(int position),to return identified long for the
      * item at position
      */
+
+    /*
     init {
         setHasStableIds(true)
     }
@@ -28,6 +30,7 @@ class ChildColorsAdapter: RecyclerView.Adapter<ChildColorsAdapter.ChildColorsVH>
     override fun getItemId(position: Int): Long {
         return differ.currentList[position].id
     }
+     */
 
     private val differCallback = object : DiffUtil.ItemCallback<ColorItem>() {
         override fun areItemsTheSame(oldItem:ColorItem, newItem: ColorItem): Boolean {
