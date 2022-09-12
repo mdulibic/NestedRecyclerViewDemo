@@ -1,7 +1,6 @@
 package studio.codable.nestedrecyclerviewdemo.adapter
 
 import android.graphics.Color
-import android.graphics.Color.parseColor
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -11,6 +10,8 @@ import studio.codable.nestedrecyclerviewdemo.databinding.ItemColorBinding
 import studio.codable.nestedrecyclerviewdemo.model.ColorItem
 
 class ChildColorsAdapter: RecyclerView.Adapter<ChildColorsAdapter.ChildColorsVH>() {
+
+    private var items: List<ColorItem> = arrayListOf()
 
     /**
      * === Optimize performance ===
@@ -22,15 +23,13 @@ class ChildColorsAdapter: RecyclerView.Adapter<ChildColorsAdapter.ChildColorsVH>
      * item at position
      */
 
-    /*
     init {
         setHasStableIds(true)
     }
 
     override fun getItemId(position: Int): Long {
-        return differ.currentList[position].id
+        return items[position].id
     }
-     */
 
     private val differCallback = object : DiffUtil.ItemCallback<ColorItem>() {
         override fun areItemsTheSame(oldItem:ColorItem, newItem: ColorItem): Boolean {
@@ -51,13 +50,14 @@ class ChildColorsAdapter: RecyclerView.Adapter<ChildColorsAdapter.ChildColorsVH>
     }
 
     override fun onBindViewHolder(holder: ChildColorsVH, position: Int) {
-        return holder.bind(differ.currentList[position])
+        return holder.bind(items[position])
     }
 
-    override fun getItemCount(): Int = differ.currentList.size
+    override fun getItemCount(): Int = items.size
 
-    fun update(newItems: List<ColorItem>) {
-        differ.submitList(newItems)
+    fun update(items: List<ColorItem>, isInitialized: Boolean) {
+        this.items = items
+        if(!isInitialized) differ.submitList(items)
     }
 
     inner class ChildColorsVH(private val binding: ItemColorBinding) :

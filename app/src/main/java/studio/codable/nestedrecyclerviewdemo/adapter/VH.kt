@@ -21,13 +21,6 @@ sealed class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
             orientation = LinearLayoutManager.HORIZONTAL
         }
 
-        init {
-            binding.rvChildItems.apply {
-                layoutManager = linearLayoutManager
-                adapter = childColorsAdapter
-            }
-        }
-
         private var itemDecoration = object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect, view: View,
@@ -37,14 +30,21 @@ sealed class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
             }
         }
 
+        lateinit var item: ViewTypeItem.ColorListView
+
         fun bind(item: ViewTypeItem.ColorListView) {
+            childColorsAdapter.update(item.colorItems, ::item.isInitialized)
+
+            this.item = item
+
             binding.rvChildItems.apply {
+                layoutManager = linearLayoutManager
+                adapter = childColorsAdapter
                 setRecycledViewPool(parentRecycledViewPool)
 
                 removeItemDecoration(itemDecoration)
                 addItemDecoration(itemDecoration)
             }
-            childColorsAdapter.update(item.colorItems)
         }
     }
 
