@@ -76,14 +76,5 @@ fun getTestData(): List<Palette> =
                 ColorItem(id = 31, "Color 3", "#B4DCC8"),
                 ColorItem(id = 32, "Color 4", "#F0B446")
             )
-        ),
-        Palette(
-            id = 9, name = "Palette 9",
-            colors = listOf(
-                ColorItem(id = 34, "Color 1", "#B4DCC8"),
-                ColorItem(id = 35, "Color 2", "#D2AFD2"),
-                ColorItem(id = 36, "Color 3", "#F0B446"),
-                ColorItem(id = 37, "Color 4", "#A5C8D7")
-            )
         )
     )
